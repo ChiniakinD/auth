@@ -3,7 +3,7 @@ package com.chiniakin.auth.repository;
 import com.chiniakin.auth.entity.Role;
 import com.chiniakin.auth.entity.User;
 import com.chiniakin.auth.exception.AccessDeniedException;
-import com.chiniakin.auth.exception.UserNotExistException;
+import com.chiniakin.auth.exception.UserException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     }
 
     default User findUserByLoginOrThrow(String login) {
-        return findUserByLogin(login).orElseThrow(() -> new UserNotExistException("Пользователь не найден"));
+        return findUserByLogin(login).orElseThrow(() -> new UserException("Пользователь не найден"));
     }
 
     @Query(value = "select distinct r from Role r " +
