@@ -17,6 +17,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Set;
 
+/**
+ * Реализация сервиса для работы с ролями пользователей.
+ *
+ * @author ChiniakinD
+ */
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
@@ -27,6 +32,12 @@ public class RoleServiceImpl implements RoleService {
 
     private final JWTService jwtService;
 
+    /**
+     * Сохраняет роли указанному пользователю.
+     *
+     * @param roleModel модель с ролями.
+     * @param request   запрос для получения токена.
+     */
     @Override
     public void saveRole(RoleModel roleModel, HttpServletRequest request) {
         String adminLogin = jwtService.extractUserName(getJWTToken(request));
@@ -41,6 +52,13 @@ public class RoleServiceImpl implements RoleService {
         userRepository.save(changedUser);
     }
 
+    /**
+     * Получает роли пользователя по его логину.
+     *
+     * @param login   логин пользователя.
+     * @param request запрос для получения токена.
+     * @return роли пользователя.
+     */
     @Override
     public Set<Role> getRoles(String login, HttpServletRequest request) {
         userRepository.findUserByLoginOrThrow(login);
@@ -51,6 +69,12 @@ public class RoleServiceImpl implements RoleService {
         return userRepository.findRolesByLogin(login);
     }
 
+    /**
+     * Получет токен из запроса.
+     *
+     * @param request запрос, содержащий cookie.
+     * @return JWT токен
+     */
     private String getJWTToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {

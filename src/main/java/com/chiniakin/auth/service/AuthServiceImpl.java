@@ -18,6 +18,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Реализация сервиса для регистрации и аутентификации пользователей.
+ *
+ * @author ChiniakinD
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -32,6 +37,11 @@ public class AuthServiceImpl implements AuthService {
 
     private final JWTService jwtService;
 
+    /**
+     * Выполняет регистрацию нового пользователя.
+     *
+     * @param userInfoRequest модель для регистрации.
+     */
     @Override
     public void signUp(SignUpUserRequest userInfoRequest) {
         checkUser(userInfoRequest);
@@ -42,6 +52,13 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
+    /**
+     * Выполняет аутентификацию и генерирует JWT токен.
+     *
+     * @param signInUserRequest модель для аутентификации.
+     * @param response          ответ для добавления JWT токена в cookie.
+     * @return
+     */
     @Override
     public String signIn(SignInUserRequest signInUserRequest, HttpServletResponse response) {
         checkAuthInformation(signInUserRequest);
@@ -51,6 +68,12 @@ public class AuthServiceImpl implements AuthService {
         return jwt;
     }
 
+    /**
+     * Создает и добваляет JWT токент в cookie.
+     *
+     * @param response ответ для добавления токена.
+     * @param jwt      токен.
+     */
     private void generateCookie(HttpServletResponse response, String jwt) {
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setHttpOnly(true);
@@ -60,8 +83,12 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(cookie);
     }
 
+    /**
+     * Проверяет данные на корректность при регистрации.
+     *
+     * @param userInfoRequest данные для регистрации.
+     */
     private void checkUser(SignUpUserRequest userInfoRequest) {
-
         if (userRepository.existsByLogin(userInfoRequest.getLogin()) || userRepository.existsByEmail(userInfoRequest.getEmail())) {
             throw new UserException("Пользователь уже зарегистрирован");
         }
@@ -76,6 +103,11 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    /**
+     * Проверяет данные при аутентификации.
+     *
+     * @param signInUserRequest модель для аутентификации.
+     */
     private void checkAuthInformation(SignInUserRequest signInUserRequest) {
         User user = userRepository.findUserByLogin(signInUserRequest.getLogin()).orElseThrow(
                 () -> new UserException("Пользователя с логином " + signInUserRequest.getLogin() + " не существует."));

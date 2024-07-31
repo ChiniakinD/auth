@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
+/**
+ * Контроллер для получения ролей пользователя.
+ *
+ * @author ChiniakinD
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user-roles")
@@ -18,6 +23,13 @@ public class UserRolesController {
 
     private final RoleService roleService;
 
+    /**
+     * Возвращает роли указанного пользователя.
+     *
+     * @param login   логин пользователя.
+     * @param request запрос для авторизации.
+     * @return роли пользвателя.
+     */
     @GetMapping("/{login}")
     public Set<Role> getRoles(@PathVariable String login, HttpServletRequest request) {
         return roleService.getRoles(login, request);

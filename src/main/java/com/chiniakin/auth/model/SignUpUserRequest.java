@@ -5,6 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * Модель для регистрации нового пользователя.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @Accessors(chain = true)

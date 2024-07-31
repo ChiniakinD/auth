@@ -10,6 +10,11 @@ import jakarta.persistence.EnumType;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Роль пользователя.
+ *
+ * @author ChiniakinD
+ */
 @Entity
 @Getter
 @Setter

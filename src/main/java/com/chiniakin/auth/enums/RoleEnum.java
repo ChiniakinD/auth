@@ -1,5 +1,10 @@
 package com.chiniakin.auth.enums;
 
+/**
+ * Перечисление ролей пользователей.
+ *
+ * @author ChiniakinD
+ */
 public enum RoleEnum {
 
     USER,

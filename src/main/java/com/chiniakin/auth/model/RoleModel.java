@@ -6,6 +6,11 @@ import lombok.Setter;
 
 import java.util.Set;
 
+/**
+ * Модель для сохранения ролей пользователя.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 public class RoleModel {

@@ -6,6 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
+/**
+ * Связь между пользователем и ролью.
+ *
+ * @author ChiniakinD
+ */
 @Entity
 @Table(name = "user_roles")
 public class UserRoles {

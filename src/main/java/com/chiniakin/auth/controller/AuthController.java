@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Контроллер для регистрации и аутентификации пользователей.
+ *
+ * @author ChiniakinD
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -18,11 +23,23 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * Выполняет регистрацию нового пользователя.
+     *
+     * @param userInfoRequest модель для регистрации.
+     */
     @PutMapping("/signup")
     public void signup(@RequestBody SignUpUserRequest userInfoRequest) {
         authService.signUp(userInfoRequest);
     }
 
+    /**
+     * Выполняет аутентификацию пользователя и выозвращает JWT токен.
+     *
+     * @param signInUserRequest модель для входа.
+     * @param response          для установки JWT токена в cookie.
+     * @return JWT токен.
+     */
     @PostMapping("/signin")
     public String signIn(@RequestBody SignInUserRequest signInUserRequest, HttpServletResponse response) {
         return authService.signIn(signInUserRequest, response);

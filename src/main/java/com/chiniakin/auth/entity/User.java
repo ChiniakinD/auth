@@ -22,6 +22,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Пользователь системы.
+ * Реализует интерефейс {@link UserDetails} для Spring Security.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @Entity
