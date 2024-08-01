@@ -29,7 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * Получает пользователя по логину, если у него есть права администратора.
      *
      * @param login логин пользователя.
-     * @return
      */
     @Query(value = "select u.id, u.email, u.login, u.password from users u " +
             "left join user_roles ur on ur.user_id = u.id " +
@@ -66,7 +65,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * Получает пользователя по логину или выбрасывает исключение.
      *
      * @param login логин пользователя.
-     * @return
      */
     default User findUserByLoginOrThrow(String login) {
         return findUserByLogin(login).orElseThrow(() -> new UserException("Пользователь не найден"));

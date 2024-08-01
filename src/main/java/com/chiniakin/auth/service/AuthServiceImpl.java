@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
      *
      * @param signInUserRequest модель для аутентификации.
      * @param response          ответ для добавления JWT токена в cookie.
-     * @return
+     * @return токен в строковом виде.
      */
     @Override
     public String signIn(SignInUserRequest signInUserRequest, HttpServletResponse response) {
