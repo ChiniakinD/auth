@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   datasource:
     username: postgres
@@ -8,9 +11,6 @@ spring:
   liquibase:
     change-log: classpath:liquibase/db.changelog.yml
     enabled: true
-
-server:
-  port: 8083
 
 token:
   signing:
