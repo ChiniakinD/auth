@@ -1,11 +1,13 @@
 package com.chiniakin.auth.service;
 
 import com.chiniakin.auth.entity.User;
+import com.chiniakin.auth.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Сервис для работы с JWT токенами.
@@ -21,10 +24,13 @@ import java.util.function.Function;
  * @author ChiniakinD
  */
 @Service
+@RequiredArgsConstructor
 public class JWTService {
 
     @Value("${token.signing.key}")
     private String jwtSigningKey;
+
+    private final UserRepository userRepository;
 
     /**
      * Получает имя пользоватедля из токена.
@@ -46,7 +52,10 @@ public class JWTService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", user.getId());
         claims.put("email", user.getEmail());
-        claims.put("role", user.getRoles());
+        claims.put("role", userRepository.findRolesByLogin(user.getLogin()).stream()
+                .map(role -> role.getRole().name())
+                .collect(Collectors.toList()));
+        user.setRoles(userRepository.findRolesByLogin(user.getLogin()));
         return generateToken(claims, user);
     }
 
