@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
      * @param response ответ для добавления токена.
      * @param jwt      токен.
      */
-    private void generateCookie(HttpServletResponse response, String jwt) {
+    public void generateCookie(HttpServletResponse response, String jwt) {
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
@@ -88,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
      *
      * @param userInfoRequest данные для регистрации.
      */
-    private void checkUser(SignUpUserRequest userInfoRequest) {
+    public void checkUser(SignUpUserRequest userInfoRequest) {
         if (userRepository.existsByLogin(userInfoRequest.getLogin()) || userRepository.existsByEmail(userInfoRequest.getEmail())) {
             throw new UserException("Пользователь уже зарегистрирован");
         }
@@ -108,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
      *
      * @param signInUserRequest модель для аутентификации.
      */
-    private void checkAuthInformation(SignInUserRequest signInUserRequest) {
+    public void checkAuthInformation(SignInUserRequest signInUserRequest) {
         User user = userRepository.findUserByLogin(signInUserRequest.getLogin()).orElseThrow(
                 () -> new UserException("Пользователя с логином " + signInUserRequest.getLogin() + " не существует."));
         if (!passwordEncoder.matches(signInUserRequest.getPassword(), user.getPassword())) {

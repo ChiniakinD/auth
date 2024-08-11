@@ -75,7 +75,7 @@ public class RoleServiceImpl implements RoleService {
      * @param request запрос, содержащий cookie.
      * @return JWT токен
      */
-    private String getJWTToken(HttpServletRequest request) {
+    public String getJWTToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             throw new NotAuthorizedException("Отсутствует авторизация");
