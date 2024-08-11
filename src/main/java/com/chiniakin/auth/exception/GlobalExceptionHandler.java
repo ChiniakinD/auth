@@ -2,6 +2,7 @@ package com.chiniakin.auth.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -66,6 +67,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WrongPasswordException.class)
     public ResponseEntity<String> wrongPasswordException(WrongPasswordException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
+    /**
+     * Обрабатывает исключение несуществующего значения роли.
+     *
+     * @param e исключение
+     * @return ответ с сообщением об ошибке и код статуса 400.
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        if (e.getMessage().contains("not one of the values accepted for Enum class")) {
+            return new ResponseEntity<>("Недопустимое значение роли", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
     }
 
 }
