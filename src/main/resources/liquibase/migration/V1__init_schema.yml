@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ChiniakinD
+      changes:
+        - createTable:
+            tableName: users
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: login
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+  - changeSet:
+      id: 2
+      author: ChiniakinD
+      changes:
+        - createTable:
+            tableName: roles
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: ChiniakinD
+      changes:
+        - createTable:
+            tableName: user_roles
+            ifNotExists: true
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - addForeignKeyConstraint:
+                  baseTableName: user_roles
+                  baseColumnNames: user_id
+                  constraintName: fk_user_roles_user
+                  referencedTableName: users
+                  referencedColumnNames: id
+              - addForeignKeyConstraint:
+                  baseTableName: user_roles
+                  baseColumnNames: role_id
+                  constraintName: fk_user_roles_role
+                  referencedTableName: roles
+                  referencedColumnNames: id
